@@ -17,6 +17,9 @@ public class DashboardPage extends BasePage {
     private By user_dropdown = By.id("user-dropdown");
     private By logoutLink = By.id("logoutLink");
     private By menu_content_elements = By.cssSelector("#menu-content li");
+    private By menu_admin_module = By.id("menu_admin_viewAdminModule");
+    private By user_management = By.id("menu_admin_UserManagement");
+    private By view_users = By.id("menu_admin_viewSystemUsers");
 
 
     public DashboardPage(WebDriver webDriver){
@@ -43,5 +46,20 @@ public class DashboardPage extends BasePage {
         webDriver.findElement(logoutLink).click();
         ScreenShotHelper.takeScreenShotAndAdToHTMLReport(webDriver, Status.INFO, "Login Page");
         return new LoginPage(webDriver);
+    }
+    public void clickOnMenuAdminModule() {
+        webDriver.findElement(menu_admin_module).click();
+    }
+    public void clickOnUserManagement() {
+        webDriver.findElement(user_management).click();
+    }
+    public void clickOnViewUsers() {
+        webDriver.findElement(view_users).click();
+    }
+    public UsersPage goToAddNewUser() {
+        clickOnMenuAdminModule();
+        clickOnUserManagement();
+        clickOnViewUsers();
+        return new UsersPage(webDriver);
     }
 }
