@@ -3,6 +3,8 @@ package pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class LoginPage extends BasePage {
 
@@ -10,7 +12,7 @@ public class LoginPage extends BasePage {
     private By userInput = By.id("txtUsername");
     private By passWordInput = By.id("txtPassword");
     private By loginButton = By.id("btnLogin");
-    private By errorMessage = By.name("errorMessage");
+
 
     public LoginPage(WebDriver webDriver){
         super(webDriver);
@@ -42,17 +44,15 @@ public class LoginPage extends BasePage {
         clickOnLoginButton();
         return new DashboardPage(webDriver);
     }
+    public RetryLoginPage errorLoginAs(String user, String passWord){
+        typeUserName(user);
+        typePassWord(passWord);
+        clickOnLoginButton();
+        return new RetryLoginPage(webDriver);
+    }
 
 
-    /*public boolean isErrorMessageVisible(){
-        try {
-            WebDriverWait wait = new WebDriverWait(webDriver, 3);
-            wait.until(ExpectedConditions.visibilityOf(webDriver.findElement(errorMessage)));
-            return true;
-        }catch (Exception e){
-            return false;
-        }
-    }*/
+
 
     public boolean isLoginPageDisplayed(){
         return webDriver.findElement(loginButton).isDisplayed();

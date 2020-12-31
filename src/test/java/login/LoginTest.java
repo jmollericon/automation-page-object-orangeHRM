@@ -6,6 +6,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import pages.DashboardPage;
 import pages.LoginPage;
+import pages.RetryLoginPage;
 
 public class LoginTest extends BaseTest {
     @BeforeMethod
@@ -24,8 +25,9 @@ public class LoginTest extends BaseTest {
     @Test
     public void testInvalidCredentials(){
         LoginPage loginPage = new LoginPage(webDriver);
-        //TODO ADD Logic
-        Assert.assertEquals("test", "test");
+        RetryLoginPage retryLoginPage = loginPage.errorLoginAs("admin", "admin");
+        Assert.assertTrue(retryLoginPage.isRetryLoginPageDisplayed());
+        Assert.assertTrue(retryLoginPage.isErrorMessageVisible());
     }
 
     @Test
