@@ -31,6 +31,14 @@ public class LoginTest extends BaseTest {
     }
 
     @Test
+    public void testValidCredentialsButNotAdmin(){
+        LoginPage loginPage = new LoginPage(webDriver);
+        DashboardPage dashboardPage = loginPage.loginAs("linda", "linda.anderson");
+        Assert.assertTrue(dashboardPage.isDashboardPageDisplayed());
+        Assert.assertNotEquals(dashboardPage.getFirstOptionMenuText(), "Admin");
+    }
+
+    @Test
     public void testLogOut(){
         LoginPage loginPage = new LoginPage(webDriver);
         //TODO ADD Logic
