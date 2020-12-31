@@ -1,5 +1,7 @@
 package pages;
 
+import com.aventstack.extentreports.Status;
+import helper.ScreenShotHelper;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -41,15 +43,18 @@ public class LoginPage extends BasePage {
     public DashboardPage loginAs(String user, String passWord){
         typeUserName(user);
         typePassWord(passWord);
+        ScreenShotHelper.takeScreenShotAndAdToHTMLReport(webDriver, Status.INFO, "Valid 'username' and 'password' entered");
         clickOnLoginButton();
-        //ScreenShotHelper.takeScreenShotAndAdToHTMLReport(webDriver, Status.INFO, "Login");
+        ScreenShotHelper.takeScreenShotAndAdToHTMLReport(webDriver, Status.INFO, "Login was made");
         return new DashboardPage(webDriver);
     }
 
     public RetryLoginPage errorLoginAs(String user, String passWord){
         typeUserName(user);
         typePassWord(passWord);
+        ScreenShotHelper.takeScreenShotAndAdToHTMLReport(webDriver, Status.INFO, "Invalid 'username' and 'password' entered");
         clickOnLoginButton();
+        ScreenShotHelper.takeScreenShotAndAdToHTMLReport(webDriver, Status.INFO, "Error Login - Retry Login Page");
         return new RetryLoginPage(webDriver);
     }
 

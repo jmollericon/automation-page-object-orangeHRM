@@ -1,5 +1,7 @@
 package pages;
 
+import com.aventstack.extentreports.Status;
+import helper.ScreenShotHelper;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -23,7 +25,7 @@ public class DashboardPage extends BasePage {
 
     public boolean isDashboardPageDisplayed(){
         WebElement element = webDriver.findElement(dashboardPage);
-        //ScreenShotHelper.takeScreenShotAndAdToHTMLReport(webDriver, Status.INFO, "Display");
+        ScreenShotHelper.takeScreenShotAndAdToHTMLReport(webDriver, Status.INFO, "Dashboard Page Displayed");
         return element.isDisplayed();
     }
     public String getFirstOptionMenuText(){
@@ -33,14 +35,13 @@ public class DashboardPage extends BasePage {
     }
     public DashboardPage clickOnUserDropDown(){
         webDriver.findElement(user_dropdown).click();
-        //ScreenShotHelper.takeScreenShotAndAdToHTMLReport(webDriver, Status.INFO, "Display");
         return new DashboardPage(webDriver);
     }
     public LoginPage clickOnLogOutButton(){
         WebDriverWait wait = new WebDriverWait(webDriver, 3);
         wait.until(ExpectedConditions.visibilityOf(webDriver.findElement(logoutLink)));
         webDriver.findElement(logoutLink).click();
-        //ScreenShotHelper.takeScreenShotAndAdToHTMLReport(webDriver, Status.INFO, "Display");
+        ScreenShotHelper.takeScreenShotAndAdToHTMLReport(webDriver, Status.INFO, "Login Page");
         return new LoginPage(webDriver);
     }
 }
