@@ -11,7 +11,7 @@ import utils.OSValidator;
 
 public class BaseTest {
     protected WebDriver webDriver;
-    protected final String URL = "https://the-internet.herokuapp.com/";
+    protected final String URL = "https://orangehrm-demo-6x.orangehrmlive.com/";
     private final String DEFAULT_BROWSER = "chrome";
 
     @Parameters("browser")
@@ -35,7 +35,7 @@ public class BaseTest {
 
     @AfterMethod
     public void tearDown(){
-        if(webDriver != null)
-            webDriver.quit();
+        /*if(webDriver != null)
+            webDriver.quit();*/
     }
 }

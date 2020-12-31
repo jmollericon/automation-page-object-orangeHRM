@@ -4,6 +4,7 @@ import base.BaseTest;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import pages.DashboardPage;
 import pages.LoginPage;
 
 public class LoginTest extends BaseTest {
@@ -13,13 +14,14 @@ public class LoginTest extends BaseTest {
     }
 
     @Test
-    public void testSuccessfulLogin(){
+    public void testSuccessfulAdminLogin(){
         LoginPage loginPage = new LoginPage(webDriver);
-        //TODO ADD Logic
-        Assert.assertEquals("test", "test");
+        DashboardPage dashboardPage = loginPage.loginAs("admin", "admin123");
+        Assert.assertTrue(dashboardPage.isDashboardPageDisplayed());
+        Assert.assertEquals(dashboardPage.getFirstOptionMenuText(), "Admin");
     }
 
-   @Test
+    @Test
     public void testInvalidCredentials(){
         LoginPage loginPage = new LoginPage(webDriver);
         //TODO ADD Logic
