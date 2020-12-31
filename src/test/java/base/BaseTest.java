@@ -35,7 +35,7 @@ public class BaseTest {
 
     @AfterMethod
     public void tearDown(){
-        if(webDriver != null)
-            webDriver.quit();
+        //if(webDriver != null)
+            //webDriver.quit();
     }
 }

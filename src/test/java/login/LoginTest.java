@@ -41,7 +41,9 @@ public class LoginTest extends BaseTest {
     @Test
     public void testLogOut(){
         LoginPage loginPage = new LoginPage(webDriver);
-        //TODO ADD Logic
-        Assert.assertTrue(true);
+        DashboardPage dashboardPage = loginPage.loginAs("admin", "admin123");
+        dashboardPage = dashboardPage.clickOnUserDropDown();
+        loginPage = dashboardPage.clickOnLogOutButton();
+        Assert.assertTrue(loginPage.isLoginPageDisplayed());
     }
 }

@@ -44,15 +44,13 @@ public class LoginPage extends BasePage {
         clickOnLoginButton();
         return new DashboardPage(webDriver);
     }
+
     public RetryLoginPage errorLoginAs(String user, String passWord){
         typeUserName(user);
         typePassWord(passWord);
         clickOnLoginButton();
         return new RetryLoginPage(webDriver);
     }
-
-
-
 
     public boolean isLoginPageDisplayed(){
         return webDriver.findElement(loginButton).isDisplayed();
