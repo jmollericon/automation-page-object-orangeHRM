@@ -42,6 +42,7 @@ public class LoginPage extends BasePage {
         typeUserName(user);
         typePassWord(passWord);
         clickOnLoginButton();
+        //ScreenShotHelper.takeScreenShotAndAdToHTMLReport(webDriver, Status.INFO, "Login");
         return new DashboardPage(webDriver);
     }
 
