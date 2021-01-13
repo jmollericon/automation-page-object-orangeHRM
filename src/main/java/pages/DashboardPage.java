@@ -23,6 +23,9 @@ public class DashboardPage extends BasePage {
     private By menu_on_boarding = By.id("menu_onboarding_defaultMenuView");
     private By view_jobs = By.id("menu_onboarding_viewJobs");
 
+    // Job Category
+    private By job_menu = By.id("menu_admin_Job");
+    private By job_categories_sub_menu = By.id("menu_admin_jobCategory");
 
 
     public DashboardPage(WebDriver webDriver){
@@ -65,6 +68,23 @@ public class DashboardPage extends BasePage {
         clickOnViewUsers();
         return new UsersPage(webDriver);
     }
+    // Go to add job category
+    public void clickOnJobMenu() {
+        webDriver.findElement(job_menu).click();
+
+    }
+    public void clickOnJobCategorySubMenu() {
+        WebDriverWait wait = new WebDriverWait(webDriver, 5);
+        wait.until(ExpectedConditions.elementToBeClickable(job_categories_sub_menu));
+        webDriver.findElement(job_categories_sub_menu).click();
+    }
+    public JobCategoriesPage goToJobCategory() {
+        clickOnMenuAdminModule();
+        clickOnJobMenu();
+        clickOnJobCategorySubMenu();
+        return new JobCategoriesPage(webDriver);
+    }
+
     public void clickOnMenuOnBoarding() {
         webDriver.findElement(menu_on_boarding).click();
     }
