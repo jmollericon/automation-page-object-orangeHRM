@@ -12,7 +12,7 @@ import pages.UsersPage;
 public class AddNewUserTest extends BaseTest {
     @BeforeMethod
     public void init(){
-         webDriver.get(URL + "login");
+         webDriver.get(URL);
     }
 
     @Test

@@ -20,6 +20,9 @@ public class DashboardPage extends BasePage {
     private By menu_admin_module = By.id("menu_admin_viewAdminModule");
     private By user_management = By.id("menu_admin_UserManagement");
     private By view_users = By.id("menu_admin_viewSystemUsers");
+    private By menu_on_boarding = By.id("menu_onboarding_defaultMenuView");
+    private By view_jobs = By.id("menu_onboarding_viewJobs");
+
 
 
     public DashboardPage(WebDriver webDriver){
@@ -61,5 +64,16 @@ public class DashboardPage extends BasePage {
         clickOnUserManagement();
         clickOnViewUsers();
         return new UsersPage(webDriver);
+    }
+    public void clickOnMenuOnBoarding() {
+        webDriver.findElement(menu_on_boarding).click();
+    }
+    public void clickOnMenuOnBoardingViewJobs() {
+        webDriver.findElement(view_jobs).click();
+    }
+    public EventsPage goToAddEvent() {
+        clickOnMenuOnBoarding();
+        clickOnMenuOnBoardingViewJobs();
+        return new EventsPage(webDriver);
     }
 }

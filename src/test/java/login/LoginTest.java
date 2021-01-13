@@ -11,7 +11,7 @@ import pages.RetryLoginPage;
 public class LoginTest extends BaseTest {
     @BeforeMethod
     public void init(){
-         webDriver.get(URL + "login");
+         webDriver.get(URL);
     }
 
     @Test

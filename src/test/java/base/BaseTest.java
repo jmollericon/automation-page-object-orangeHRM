@@ -85,8 +85,9 @@ public class BaseTest {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            if (webDriver != null)
-                webDriver.quit();
+            int a=0;
+            /*if (webDriver != null)
+                webDriver.quit();*/
         }
 
     }
