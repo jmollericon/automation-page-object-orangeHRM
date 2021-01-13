@@ -23,6 +23,7 @@ public class JobCategoriesPage extends BasePage {
     private By successMesage = By.id("toast-container");
     private By job_category_list = By.cssSelector(".list-container table > tbody tr");
     private By job_category_name_list = By.xpath("td[2]");
+    private By job_category_edit_button_list = By.xpath("td[3]");
 
     private By option_menu = By.cssSelector(".list-options");
 
@@ -38,9 +39,10 @@ public class JobCategoriesPage extends BasePage {
         webDriver.findElement(add_new_job_category_button).click();
     }
     public void typeJobCategoryName(String job_category_name) {
+        webDriver.findElement(job_category_name_input).clear(); // clean text input
         webDriver.findElement(job_category_name_input).sendKeys(job_category_name);
     }
-    public void clickOnSaveNewJobCategory(){
+    public void clickOnSaveJobCategory(){
         webDriver.findElement(save_button).click();
     }
     public void fillOutFormAddNewJobCategory(String job_category_name) {
@@ -48,28 +50,66 @@ public class JobCategoriesPage extends BasePage {
         WebDriverWait wait = new WebDriverWait(webDriver, 10);
         wait.until(ExpectedConditions.elementToBeClickable(job_category_name_input));
         // fill out the form
-        ScreenShotHelper.takeScreenShotAndAdToHTMLReport(webDriver, Status.INFO, "Form add nes job category");
+        ScreenShotHelper.takeScreenShotAndAdToHTMLReport(webDriver, Status.INFO, "Form add new job category");
         typeJobCategoryName(job_category_name);
     }
     public void addNewJobCategory(String job_category_name){
         clickOnAddNewJobCategory();
         fillOutFormAddNewJobCategory(job_category_name);
         ScreenShotHelper.takeScreenShotAndAdToHTMLReport(webDriver, Status.INFO, "Form add new job category filled");
-        clickOnSaveNewJobCategory();
+        clickOnSaveJobCategory();
     }
-    public boolean isTheNewJobCategoryInTheJobCategoryList(String job_category_name){
+
+
+    // functions test 2
+    public void findAndClickOnEditJobCategory(String job_category_name){
+        ScreenShotHelper.takeScreenShotAndAdToHTMLReport(webDriver, Status.INFO, "Option: Job category");
+        WebDriverWait wait = new WebDriverWait(webDriver, 30);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(list_container));
+        ScreenShotHelper.takeScreenShotAndAdToHTMLReport(webDriver, Status.INFO, "Option: Job category ok");
+
+        List<WebElement> elements = webDriver.findElements(job_category_list);
+        //System.out.println("numero elementos "+elements.size());
+        WebElement edit_button;
+        for (WebElement user : elements) {
+            WebElement element = user.findElement(job_category_name_list);
+            if(element.getText().equals(job_category_name)) {
+                System.out.println(element.getText()+"=?="+job_category_name);
+                edit_button = user.findElement(job_category_edit_button_list);
+                edit_button.click();
+            }
+        }
+    }
+    public void fillOutFormWithTheNewJobCategoryName(String job_category_new_name) {
+        // wait for the form
+        WebDriverWait wait = new WebDriverWait(webDriver, 10);
+        wait.until(ExpectedConditions.elementToBeClickable(job_category_name_input));
+        // fill out the form
+        ScreenShotHelper.takeScreenShotAndAdToHTMLReport(webDriver, Status.INFO, "Form, edit job category name");
+        typeJobCategoryName(job_category_new_name);
+    }
+    public void editJobCategory(String job_category_name, String job_category_new_name){
+        findAndClickOnEditJobCategory(job_category_name);
+        fillOutFormWithTheNewJobCategoryName(job_category_new_name);
+        ScreenShotHelper.takeScreenShotAndAdToHTMLReport(webDriver, Status.INFO, "Form edit job category filled");
+        clickOnSaveJobCategory();
+    }
+
+    // validation
+    public boolean isTheJobCategoryInTheJobCategoryList(String job_category_name){
         WebDriverWait wait = new WebDriverWait(webDriver, 30);
         wait.until(ExpectedConditions.elementToBeClickable(successMesage)); // wait for the job category list whit the new job category
-        ScreenShotHelper.takeScreenShotAndAdToHTMLReport(webDriver, Status.INFO, "Message: Successfully Saved and joba category list with the new job category");
         List<WebElement> elements = webDriver.findElements(job_category_list);
         //System.out.println("numero elementos "+elements.size());
         for (WebElement user : elements) {
             WebElement element = user.findElement(job_category_name_list);
             //System.out.println(element.getText()+"=?="+job_category_name);
             if(element.getText().equals(job_category_name)) {
+                ScreenShotHelper.takeScreenShotAndAdToHTMLReport(webDriver, Status.INFO, "Message: Successfully Saved/Updated and '"+job_category_name+"' is in the job category list");
                 return true;
             }
         }
         return false;
     }
+
 }
