@@ -75,13 +75,13 @@ public class UsersPage extends BasePage {
     public boolean isTheNewUserInTheUserList(String user_name_new_user){
         WebDriverWait wait = new WebDriverWait(webDriver, 30);
         wait.until(ExpectedConditions.elementToBeClickable(successMesage)); // wait for the user list whit the new user
-        ScreenShotHelper.takeScreenShotAndAdToHTMLReport(webDriver, Status.INFO, "Message: Successfully Saved and User list with the new user");
         List<WebElement> elements = webDriver.findElements(users_list);
         //System.out.println("numero elementos "+elements.size());
         for (WebElement user : elements) {
             WebElement element = user.findElement(user_name_list);
             //System.out.println(element.getText()+"=?="+user_name_new_user);
             if(element.getText().equals(user_name_new_user)) {
+                ScreenShotHelper.takeScreenShotAndAdToHTMLReport(webDriver, Status.INFO, "Message: Successfully Saved and User list with the new user");
                 return true;
             }
         }
