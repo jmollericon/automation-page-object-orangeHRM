@@ -19,9 +19,13 @@ public class JobCategoriesPage extends BasePage {
     private By job_category_name_input = By.id("name");
     private By save_button = By.xpath("//*[@id=\"modal1\"]/form/div[2]/a[1]");
     private By cancel_button = By.xpath("//*[@id=\"modal1\"]/form/div[2]/a[2]");
+    private By options_button = By.xpath("//*[@id=\"jobcategoryDiv\"]/crud-panel/div/div/list/table/thead/tr/th[1]/a/i");
+    private By delete_selected_option = By.xpath("//*[@id=\"listdirective-options-dropdown-list0-action-deleteSelection}\"]/a");
+    private By delete_button = By.xpath("//*[@id=\"delete_confirmation_modal\"]/div[2]/a[2]");
 
     private By successMesage = By.id("toast-container");
     private By job_category_list = By.cssSelector(".list-container table > tbody tr");
+    private By job_category_checkbox_list = By.xpath("td[1]");
     private By job_category_name_list = By.xpath("td[2]");
     private By job_category_edit_button_list = By.xpath("td[3]");
 
@@ -35,7 +39,7 @@ public class JobCategoriesPage extends BasePage {
         ScreenShotHelper.takeScreenShotAndAdToHTMLReport(webDriver, Status.INFO, "Option: Job category");
         WebDriverWait wait = new WebDriverWait(webDriver, 30);
         wait.until(ExpectedConditions.visibilityOfElementLocated(list_container));
-        ScreenShotHelper.takeScreenShotAndAdToHTMLReport(webDriver, Status.INFO, "Option: Job category ok");
+        ScreenShotHelper.takeScreenShotAndAdToHTMLReport(webDriver, Status.INFO, "Job category list");
         webDriver.findElement(add_new_job_category_button).click();
     }
     public void typeJobCategoryName(String job_category_name) {
@@ -60,13 +64,12 @@ public class JobCategoriesPage extends BasePage {
         clickOnSaveJobCategory();
     }
 
-
     // functions test 2
     public void findAndClickOnEditJobCategory(String job_category_name){
         ScreenShotHelper.takeScreenShotAndAdToHTMLReport(webDriver, Status.INFO, "Option: Job category");
         WebDriverWait wait = new WebDriverWait(webDriver, 30);
         wait.until(ExpectedConditions.visibilityOfElementLocated(list_container));
-        ScreenShotHelper.takeScreenShotAndAdToHTMLReport(webDriver, Status.INFO, "Option: Job category ok");
+        ScreenShotHelper.takeScreenShotAndAdToHTMLReport(webDriver, Status.INFO, "Job category list");
 
         List<WebElement> elements = webDriver.findElements(job_category_list);
         //System.out.println("numero elementos "+elements.size());
@@ -74,7 +77,7 @@ public class JobCategoriesPage extends BasePage {
         for (WebElement user : elements) {
             WebElement element = user.findElement(job_category_name_list);
             if(element.getText().equals(job_category_name)) {
-                System.out.println(element.getText()+"=?="+job_category_name);
+                //System.out.println(element.getText()+"=?="+job_category_name);
                 edit_button = user.findElement(job_category_edit_button_list);
                 edit_button.click();
             }
@@ -94,7 +97,6 @@ public class JobCategoriesPage extends BasePage {
         ScreenShotHelper.takeScreenShotAndAdToHTMLReport(webDriver, Status.INFO, "Form edit job category filled");
         clickOnSaveJobCategory();
     }
-
     // validation
     public boolean isTheJobCategoryInTheJobCategoryList(String job_category_name){
         WebDriverWait wait = new WebDriverWait(webDriver, 30);
@@ -112,4 +114,63 @@ public class JobCategoriesPage extends BasePage {
         return false;
     }
 
+    // functions test 3
+    public void findAndSelectJobCategory(String job_category_name){
+        ScreenShotHelper.takeScreenShotAndAdToHTMLReport(webDriver, Status.INFO, "Option: Job category");
+        WebDriverWait wait = new WebDriverWait(webDriver, 30);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(list_container));
+        ScreenShotHelper.takeScreenShotAndAdToHTMLReport(webDriver, Status.INFO, "Job category list");
+
+        List<WebElement> elements = webDriver.findElements(job_category_list);
+        //System.out.println("numero elementos "+elements.size());
+        WebElement job_category_checkbox;
+        for (WebElement user : elements) {
+            WebElement element = user.findElement(job_category_name_list);
+            if(element.getText().equals(job_category_name)) {
+                //System.out.println(element.getText()+"=?="+job_category_name);
+                job_category_checkbox = user.findElement(job_category_checkbox_list);
+                job_category_checkbox.click();
+                ScreenShotHelper.takeScreenShotAndAdToHTMLReport(webDriver, Status.INFO, "Job category found and selected");
+            }
+        }
+    }
+    public void clickOnOptionsButton(){
+        webDriver.findElement(options_button).click();
+    }
+    public void clickOnDeleteSelectedOption(){
+        WebDriverWait wait = new WebDriverWait(webDriver, 10);
+        wait.until(ExpectedConditions.elementToBeClickable(delete_selected_option)); // wait for the option
+        webDriver.findElement(delete_selected_option).click();
+        ScreenShotHelper.takeScreenShotAndAdToHTMLReport(webDriver, Status.INFO, "Delete Selected Option");
+    }
+    public void clickOnYesDeleteJobCategory(){
+        WebDriverWait wait = new WebDriverWait(webDriver, 10);
+        wait.until(ExpectedConditions.elementToBeClickable(delete_button)); // wait for the modal to delete
+        webDriver.findElement(delete_button).click();
+        ScreenShotHelper.takeScreenShotAndAdToHTMLReport(webDriver, Status.INFO, "Delete Job Category (YES, DELETE)");
+    }
+    public void deleteJobCategory(String job_category_name){
+        findAndSelectJobCategory(job_category_name);
+        clickOnOptionsButton();
+        clickOnDeleteSelectedOption();
+        clickOnYesDeleteJobCategory();
+    }
+    public boolean isNotTheJobCategoryInTheJobCategoryList(String job_category_name){
+        WebDriverWait wait = new WebDriverWait(webDriver, 30);
+        wait.until(ExpectedConditions.elementToBeClickable(successMesage)); // wait for the message
+        ScreenShotHelper.takeScreenShotAndAdToHTMLReport(webDriver, Status.INFO, "Message: Successfully Deleted");
+        WebDriverWait wait2 = new WebDriverWait(webDriver, 30);
+        wait2.until(ExpectedConditions.invisibilityOf(webDriver.findElement(successMesage)));
+        List<WebElement> elements = webDriver.findElements(job_category_list);
+        //System.out.println("numero elementos "+elements.size());
+        for (WebElement user : elements) {
+            WebElement element = user.findElement(job_category_name_list);
+            //System.out.println(element.getText()+"=?="+job_category_name);
+            if(element.getText().equals(job_category_name)) {
+                return false;
+            }
+        }
+        ScreenShotHelper.takeScreenShotAndAdToHTMLReport(webDriver, Status.INFO, "'"+job_category_name+"' isn't in the job category list");
+        return true;
+    }
 }

@@ -9,10 +9,10 @@ import pages.JobCategoriesPage;
 import pages.LoginPage;
 import pages.UsersPage;
 
-public class AddEditRemoveJobCategoryTest extends BaseTest {
+public class AddEditDeleteJobCategoryTest extends BaseTest {
     // data
     static String job_category_name = "example4";
-    static String job_category_new_name = "example4.0";
+    static String job_category_new_name = "example4 updated";
 
     @BeforeMethod
     public void init(){
@@ -20,7 +20,7 @@ public class AddEditRemoveJobCategoryTest extends BaseTest {
     }
 
     @Test
-    public void testAddNewJobCategory(){
+    public void test1AddNewJobCategory(){
         // process
         LoginPage loginPage = new LoginPage(webDriver);
         DashboardPage dashboardPage = loginPage.loginAs("admin", "admin123");
@@ -31,7 +31,7 @@ public class AddEditRemoveJobCategoryTest extends BaseTest {
     }
 
     @Test
-    public void testEditJobCategory(){
+    public void test2EditJobCategory(){
         // process
         LoginPage loginPage = new LoginPage(webDriver);
         DashboardPage dashboardPage = loginPage.loginAs("admin", "admin123");
@@ -40,5 +40,16 @@ public class AddEditRemoveJobCategoryTest extends BaseTest {
         jobCategoriesPage.editJobCategory(job_category_name, job_category_new_name);
         // validation
         Assert.assertTrue(jobCategoriesPage.isTheJobCategoryInTheJobCategoryList(job_category_new_name));
+    }
+    @Test
+    public void test3DeleteJobCategory(){
+        // process
+        LoginPage loginPage = new LoginPage(webDriver);
+        DashboardPage dashboardPage = loginPage.loginAs("admin", "admin123");
+        JobCategoriesPage jobCategoriesPage = dashboardPage.goToJobCategory();
+        // delete previously updated job category (previous test)
+        jobCategoriesPage.deleteJobCategory(job_category_new_name);
+        // validation
+        Assert.assertTrue(jobCategoriesPage.isNotTheJobCategoryInTheJobCategoryList(job_category_new_name));
     }
 }
